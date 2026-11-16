@@ -1,0 +1,3 @@
+InterfaceAlias     NetworkCategory IPv4Connectivity
+--------------     --------------- ----------------
+Ethernet       DomainAuthenticated         Internet

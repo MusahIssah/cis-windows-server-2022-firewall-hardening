@@ -30,7 +30,7 @@ This logical diagram does not establish a broader network topology. Ethernet was
 ## Methodology and change validation
 
 1. Review five selected firewall checks on SRV01 and record effective configuration.
-2. Before deployment, inspect locally enabled inbound rules and confirm Ethernet's network category was DomainAuthenticated. The reviewed rules and a traffic-impact test result were not supplied.
+2. Before deployment, inspect locally enabled inbound rules and confirm Ethernet's network category was DomainAuthenticated. The detailed rule inventory is retained privately; no traffic-impact test result was supplied.
 3. Create `CIS-SRV01-Public-Firewall-Hardening`, link it to **Pilot OU**, and scope it to the **SRV01 computer account**.
 4. Configure the Public profile's **Apply local firewall rules** and **Apply local connection security rules** options to **No**. Preserve Domain and Private profile settings.
 5. Independently verify effective settings and the applied computer GPO list using the commands below. No specific policy refresh command or deployment timestamp was supplied.
@@ -43,6 +43,100 @@ gpresult /r /scope computer
 ```
 
 The final Public profile was **Enabled True**, **AllowLocalFirewallRules False**, and **AllowLocalIPsecRules False**. The applied GPO list included **CIS-SRV01-Public-Firewall-Hardening**. This verifies effective settings and GPO application; it does not establish packet filtering behavior under a Public network category or the removal of local rule definitions.
+
+## Evidence walkthrough
+
+The images below are actual source captures, cropped or redacted on copies to remove unrelated infrastructure details. Text blocks reproduce selected source exports; the gpresult block is explicitly a sanitized excerpt. No endpoint checks were rerun during publication.
+
+### 1. Baseline and pre-change review
+
+`Get-NetFirewallProfile -PolicyStore ActiveStore` established effective profile state. The screenshot also shows a corroborating read-only netsh state query.
+
+*Domain, Private, and Public firewall profiles enabled before the change*
+
+![Domain, Private, and Public firewall profiles enabled before the change](evidence/02_CIS_Firewall_State_Verified.png)
+
+**Recorded evidence — [03_CIS_Firewall_Policy_Assessment.txt](evidence/03_CIS_Firewall_Policy_Assessment.txt):**
+
+```text
+Name                    : Domain
+DefaultInboundAction    : Block
+DefaultOutboundAction   : Allow
+AllowLocalFirewallRules : True
+AllowLocalIPsecRules    : True
+
+Name                    : Private
+DefaultInboundAction    : Block
+DefaultOutboundAction   : Allow
+AllowLocalFirewallRules : True
+AllowLocalIPsecRules    : True
+
+Name                    : Public
+DefaultInboundAction    : Block
+DefaultOutboundAction   : Allow
+AllowLocalFirewallRules : True
+AllowLocalIPsecRules    : True
+```
+
+Enabled local inbound rules were reviewed privately; the detailed rule inventory is not published. The network profile evidence confirms the observed Ethernet category, not a Public-network traffic test.
+
+**Recorded evidence — [08_CIS_Active_Network_Profile.txt](evidence/08_CIS_Active_Network_Profile.txt):**
+
+```text
+InterfaceAlias     NetworkCategory IPv4Connectivity
+--------------     --------------- ----------------
+Ethernet       DomainAuthenticated         Internet
+```
+
+### 2. Dedicated GPO and Public rule-merging settings
+
+*New GPO name entered in Group Policy Management*
+
+![New GPO name entered in Group Policy Management](evidence/CIS-SRV01-Public-Firewall-Hardening.png)
+
+*GPO editor before configuration: both Public rule-merging options Not configured*
+
+![GPO editor before configuration: both Public rule-merging options Not configured](evidence/05_CIS_Public_Rule_Merging_Before.png)
+
+The editor's Not configured values are not the endpoint's effective before-state. The separate baseline export above reports both effective values as True.
+
+*Public Apply local firewall rules and Apply local connection security rules set to No*
+
+![Public Apply local firewall rules and Apply local connection security rules set to No](evidence/06_CIS_Public_Firewall_Settings_Configured.png)
+
+### 3. Pilot link and SRV01 scope
+
+*GPO linked to Pilot OU with SRV01 computer security filtering; domain details redacted*
+
+![GPO linked to Pilot OU with SRV01 computer security filtering; domain details redacted](evidence/07_CIS_Firewall_GPO_Linked_and_Scoped.png)
+
+This capture shows the link and filtering configuration. The applied-GPO excerpt below independently supports application to the target.
+
+### 4. Effective configuration and applied GPO validation
+
+The source exports record results of `Get-NetFirewallProfile -PolicyStore ActiveStore` and `gpresult /r /scope computer`. No screenshot of the final PowerShell output was supplied; the actual reviewed text is displayed instead.
+
+**Recorded evidence — [09_CIS_Firewall_Remediation_Validation.txt](evidence/09_CIS_Firewall_Remediation_Validation.txt):**
+
+```text
+Name                    : Public
+Enabled                 : True
+AllowLocalFirewallRules : False
+AllowLocalIPsecRules    : False
+```
+
+**Recorded evidence — [10_CIS_GPO_Application_Verification_Excerpt.txt](evidence/10_CIS_GPO_Application_Verification_Excerpt.txt):**
+
+```text
+Sanitized excerpt from 10_CIS_GPO_Application_Verification.txt
+Only the relevant applied GPO entry is retained; domain and unrelated details omitted.
+
+Applied Group Policy Objects
+----------------------------
+    CIS-SRV01-Public-Firewall-Hardening
+```
+
+Both findings remain remediated **at effective-configuration level**. This evidence does not establish Public-profile traffic testing or resolution of the unrelated Process Creation auditing issue.
 
 ## Before and after
 
@@ -77,7 +171,7 @@ Run on the intended server in Windows PowerShell 5.1 with permission to read fir
 
 The report includes collection time and selected settings, not host/domain identifiers or raw `gpresult` output. The script writes a local report file; it makes no policy changes or network requests. Errors stop collection rather than fabricating Pass/Fail results. A returned value other than explicit True or False is **Review required**, not a pass. Do not run it with an output directory you cannot write to, and inspect output before publication.
 
-**Repository validation:** Windows PowerShell 5.1 syntax parsing passed for the script, both PowerShell examples parsed successfully, and 18 relative Markdown links passed validation. These are authoring checks, not endpoint security test results. Execution of this newly authored script on SRV01 is not claimed, and no generated report is included as lab evidence.
+**Repository validation:** Windows PowerShell 5.1 syntax parsing passed for the script, both PowerShell examples parsed successfully, and 38 relative Markdown links and anchors passed validation. These are authoring checks, not endpoint security test results. Execution of this newly authored script on SRV01 is not claimed, and no generated report is included as lab evidence.
 
 ## Evidence and documentation
 
@@ -85,10 +179,10 @@ The report includes collection time and selected settings, not host/domain ident
 | --- | --- |
 | [Assessment report](docs/ASSESSMENT_REPORT.md) | Scope, observations, change, validation, and residual limitations |
 | [Findings](docs/FINDINGS.md) | CIS-FW-01 and CIS-FW-02 evidence and closure basis |
-| [Evidence index](docs/EVIDENCE_INDEX.md) | Original filename register pending the actual evidence inventory |
+| [Evidence index](docs/EVIDENCE_INDEX.md) | Original filenames, public copies, and sanitization details |
 | [Evidence instructions](evidence/README.md) | Sanitization and later screenshot publication |
 
-No evidence filenames or screenshots were supplied for this repository update. The index lists the evidence needed and explicitly leaves original filenames pending. Actual sanitized screenshots can later be displayed beneath their matching procedures; no placeholder image files or fabricated output are included.
+Five sanitized screenshots and four reviewed text artifacts are now published and displayed in the evidence walkthrough. The index maps them to their original filenames. No generated output, proprietary benchmark PDF, raw rule inventory, or unsanitized gpresult report is published.
 
 ## Lessons learned and scope limitations
 

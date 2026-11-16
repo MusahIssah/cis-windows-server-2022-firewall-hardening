@@ -2,7 +2,7 @@
 
 [Overview](../README.md) · [Assessment report](ASSESSMENT_REPORT.md) · [Evidence index](EVIDENCE_INDEX.md)
 
-Findings are grounded in supplied observations. Original filenames and sanitized captures remain pending. No severity score, exploitation, malicious rule, or incident is inferred.
+Findings are grounded in supplied observations. Original filenames and sanitized captures are now recorded in the evidence index. No severity score, exploitation, malicious rule, or incident is inferred.
 
 ## CIS-FW-01 — Public local firewall rule merging enabled
 
@@ -15,7 +15,7 @@ Findings are grounded in supplied observations. Original filenames and sanitized
 | After | Public AllowLocalFirewallRules False — Pass; Public Enabled True |
 | Verification | ActiveStore profile query and applied GPO list from computer-scope gpresult |
 | Status | **Remediated at effective-configuration level** |
-| Evidence references | E02, E04, E05 in the index; original filenames pending |
+| Evidence references | E02, E04, E05 in the index; published source mappings available |
 
 **Closure basis:** the supplied final effective value is False, and the applied GPO list contains the named hardening GPO. This establishes configuration remediation only. It does not demonstrate traffic testing, deletion of local rules, or that a malicious rule ever existed. Domain and Private settings were preserved.
 
@@ -30,7 +30,7 @@ Findings are grounded in supplied observations. Original filenames and sanitized
 | After | Public AllowLocalIPsecRules False — Pass; Public Enabled True |
 | Verification | ActiveStore profile query and applied GPO list from computer-scope gpresult |
 | Status | **Remediated at effective-configuration level** |
-| Evidence references | E02, E04, E05 in the index; original filenames pending |
+| Evidence references | E02, E04, E05 in the index; published source mappings available |
 
 **Closure basis:** the supplied final effective value is False, and the named GPO is listed as applied. No IPsec negotiation test, traffic behavior, rule deletion, or enterprise-wide deployment is claimed. Domain and Private settings were preserved.
 

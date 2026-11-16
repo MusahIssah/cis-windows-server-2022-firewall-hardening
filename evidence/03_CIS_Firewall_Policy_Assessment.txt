@@ -1,0 +1,17 @@
+Name                    : Domain
+DefaultInboundAction    : Block
+DefaultOutboundAction   : Allow
+AllowLocalFirewallRules : True
+AllowLocalIPsecRules    : True
+
+Name                    : Private
+DefaultInboundAction    : Block
+DefaultOutboundAction   : Allow
+AllowLocalFirewallRules : True
+AllowLocalIPsecRules    : True
+
+Name                    : Public
+DefaultInboundAction    : Block
+DefaultOutboundAction   : Allow
+AllowLocalFirewallRules : True
+AllowLocalIPsecRules    : True

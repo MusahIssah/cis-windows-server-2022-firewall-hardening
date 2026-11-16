@@ -1,0 +1,6 @@
+Sanitized excerpt from 10_CIS_GPO_Application_Verification.txt
+Only the relevant applied GPO entry is retained; domain and unrelated details omitted.
+
+Applied Group Policy Objects
+----------------------------
+    CIS-SRV01-Public-Firewall-Hardening

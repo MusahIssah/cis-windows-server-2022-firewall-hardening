@@ -6,7 +6,7 @@
 
 Five selected CIS firewall checks were reviewed on SRV01, a Windows Server 2022 member server managed through DC01 Active Directory and Group Policy. All three firewall profile enablement checks passed. Two Public profile rule-merging checks initially failed and were remediated through a narrowly scoped GPO. Final effective values met the five selected targets.
 
-This is an author-reported **effective-configuration validation**, not an official CIS-CAT assessment, complete benchmark evaluation, or compliance certification. No assessment date, scan artifact, screenshot filename, or generated script report was supplied.
+This is an author-reported **effective-configuration validation**, not an official CIS-CAT assessment, complete benchmark evaluation, or compliance certification. The supplied source finding record dates the assessment November 16, 2026. Sanitized captures and selected text exports are now published; no scan artifact or generated collector report is claimed.
 
 ## Scope and criteria
 
@@ -21,7 +21,7 @@ This is an author-reported **effective-configuration validation**, not an offici
 
 ## Assessment and implementation
 
-The pre-deployment review inspected locally enabled inbound rules and verified Ethernet was DomainAuthenticated. Individual rule details and a connectivity test outcome were not supplied.
+The pre-deployment review inspected locally enabled inbound rules and verified Ethernet was DomainAuthenticated. The detailed rule inventory is retained privately; a connectivity test outcome was not supplied.
 
 The administrator created **CIS-SRV01-Public-Firewall-Hardening**, linked it to **Pilot OU**, and scoped it to the **SRV01 computer account**. The two Public profile rule-merging options were set to **No**, preserving Domain and Private profile settings. Exact security-filtering mechanics, policy refresh commands, and deployment timestamps are not inferred.
 
@@ -43,6 +43,6 @@ These checks establish the recorded effective settings and GPO application. They
 
 ## Residual limitations and evidence availability
 
-Only the five named checks were assessed; no broader CIS score is reported. Sanitized original evidence is pending publication, so readers cannot yet inspect the underlying captures. The [evidence index](EVIDENCE_INDEX.md) records missing filenames without inventing them.
+Only the five named checks were assessed; no broader CIS score is reported. Sanitized screenshots and selected text exports are displayed in the [README walkthrough](../README.md#evidence-walkthrough). The [evidence index](EVIDENCE_INDEX.md) maps original filenames to public copies and explains withheld raw material. No separate post-change Domain/Private screenshot was supplied; preservation is documented in the source assessment narrative.
 
 The prior Process Creation auditing troubleshooting issue remains **unresolved and outside scope**. The read-only collector was authored for repeat verification; no new execution on SRV01 or report output is claimed. Future changes should be revalidated and documented separately rather than treated as completed here.

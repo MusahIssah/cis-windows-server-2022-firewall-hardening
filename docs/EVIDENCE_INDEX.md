@@ -1,24 +1,27 @@
-# Evidence Index and Original Filename Register
+# Evidence Index and Publication Record
 
-[Overview](../README.md) · [Publication instructions](../evidence/README.md)
+[Inline evidence walkthrough](../README.md#evidence-walkthrough) · [Publication instructions](../evidence/README.md)
 
-**Original evidence filenames were not supplied.** The entries below identify the expected evidence categories without inventing filenames or implying that screenshots exist. No screenshots, raw diagnostics, or new collector output are included in this update.
+Five real screenshots and four reviewed text artifacts are published. All images were cropped on copies; the scope image also uses opaque redaction. Source files remain unchanged outside the repository. No AI image generation or reconstruction was used.
 
-| Reference | Required supporting context | Original filename | Publication status / location |
+| Reference | Original evidence filename | Public artifact | Interpretation / treatment |
 | --- | --- | --- | --- |
-| E01 | Pre-deployment locally enabled inbound rule review and Ethernet DomainAuthenticated observation | Not supplied | Pending sanitized evidence in `evidence/` |
-| E02 | Before-state: all profiles enabled; Public AllowLocalFirewallRules and AllowLocalIPsecRules True | Not supplied | Pending sanitized evidence in `evidence/` |
-| E03 | GPO name, Pilot OU link, and scope to SRV01 computer account | Not supplied | Pending sanitized evidence in `evidence/` |
-| E04 | GPO Public rule-merging options both No | Not supplied | Pending sanitized evidence in `evidence/` |
-| E05 | Final ActiveStore Public Enabled True; both merging values False; applied hardening GPO in computer-scope gpresult | Not supplied | Pending sanitized evidence in `evidence/` |
-| E06 | Domain and Private profile preservation | Not supplied | Pending sanitized evidence in `evidence/` |
+| E01 | `08_CIS_Active_Network_Profile.txt` | [Network category](../evidence/08_CIS_Active_Network_Profile.txt) | Ethernet DomainAuthenticated; text encoding/whitespace normalized |
+| E02 | `02_CIS_Firewall_State_Verified.png` | [Baseline screenshot](../evidence/02_CIS_Firewall_State_Verified.png) | All profiles enabled; cropped to console |
+| E02 | `03_CIS_Firewall_Policy_Assessment.txt` | [Effective before-state](../evidence/03_CIS_Firewall_Policy_Assessment.txt) | Public merging True/True; reviewed text, encoding/whitespace normalized |
+| E03 | `CIS-SRV01-Public-Firewall-Hardening.png` | [New GPO dialog](../evidence/CIS-SRV01-Public-Firewall-Hardening.png) | Name entry only; cropped dialog, not standalone proof of application |
+| E03 | `07_CIS_Firewall_GPO_Linked_and_Scoped.png` | [Pilot link and scope](../evidence/07_CIS_Firewall_GPO_Linked_and_Scoped.png) | Pilot and SRV01 retained; domain/path/namespace redacted; unrelated GPO tree cropped out |
+| E04 | `05_CIS_Firewall_GPO_Created.png` | [Editor before configuration](../evidence/05_CIS_Public_Rule_Merging_Before.png) | Renamed to match visible content: both options Not configured; cropped |
+| E04 | `06_CIS_Public_Firewall_Settings_Configured.png` | [Editor after configuration](../evidence/06_CIS_Public_Firewall_Settings_Configured.png) | Both options No; cropped dialog |
+| E05 | `09_CIS_Firewall_Remediation_Validation.txt` | [Final effective Public values](../evidence/09_CIS_Firewall_Remediation_Validation.txt) | Enabled True, merging False/False; text encoding/whitespace normalized |
+| E05 | `10_CIS_GPO_Application_Verification.txt` | [Sanitized applied-GPO excerpt](../evidence/10_CIS_GPO_Application_Verification_Excerpt.txt) | Only the relevant applied GPO entry retained; full raw output withheld |
+| E06 | `CIS_Windows_Server_2022_Firewall_Assessment_Report.md` | Preservation documented in [assessment report](ASSESSMENT_REPORT.md) | Source narrative supports preserved Domain/Private settings; no separate post-change profile screenshot supplied |
 
-Rows describe evidence needs, not a claimed screenshot count. A single real capture may support multiple rows; multiple captures may be needed for one row. Once files are supplied, record the exact original filenames, public sanitized filenames, source context, and any crop/redaction. Keep original files private and unchanged.
+## Private or excluded source material
 
-## Sanitized publication procedure
+- `01_CIS_Firewall_Baseline.txt`: its Enable column is blank, so it is not used as proof of firewall enablement. The actual state screenshot provides that evidence.
+- `04_CIS_GPO_Baseline.txt` and the full `10_CIS_GPO_Application_Verification.txt`: raw domain, topology, and unrelated GPO details remain private.
+- `07_CIS_Local_Firewall_Rule_Impact_Check.txt`: detailed rule inventory reviewed privately; publication records the review without exposing the inventory.
+- `# CIS Windows Server 2022 — Securit.txt` and the source assessment narrative: relevant supplied conclusions are represented in the curated report and findings rather than uploaded as duplicate records.
 
-1. Review actual source captures before copying anything to the repository. Never fabricate screens or reconstruct a historical before-state.
-2. Exclude credentials, internal domain information, IP addresses, identifiers, unrelated accounts, and security-sensitive raw output. Retain approved lab labels only where needed to explain the project.
-3. Publish flattened cropped/redacted copies and inspect saved images, including metadata. Never publish a proprietary full CIS Benchmark PDF, GPO backup, or unreviewed `gpresult`/rule dump.
-4. Add actual image links beneath the matching assessment or change-validation section and replace the pending filename fields with real names. Verify relative paths before committing.
-5. Preserve the distinction between effective configuration, GPO application, and untested traffic behavior. Screenshots must not imply an official CIS-CAT scan or resolution of the unrelated auditing issue.
+All nine public artifacts are displayed directly in the README. No final-output screenshot, traffic test, new collector execution, official CIS-CAT result, or Process Creation auditing resolution is invented. Continue sanitizing new evidence before publication; retain exact original-to-public filename mappings.
